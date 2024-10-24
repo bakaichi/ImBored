@@ -1,0 +1,65 @@
+# Android Studio related files
+/.idea/
+/.gradle
+/local.properties
+/.cxx/
+/captures/
+/.externalNativeBuild/
+
+# Ignore gradle files
+.gradle/
+/build/
+/**/build/
+/*.iml
+
+# Ignore log files
+*.log
+
+# Ignore miscellaneous binary files
+*.apk
+*.ap_
+*.aab
+
+# Ignore virtual machine crash logs
+hs_err_pid*
+
+# Ignore generated files
+/.settings/
+/out/
+.DS_Store
+/app/build/
+
+# Ignore OS generated files
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+*.~lock.*
+*.tmp
+*.bak
+*.backup
+
+# Ignore any signing files (e.g., signing keys, keystore files)
+*.keystore
+*.jks
+
+# Ignore crashlytics & Fabric files
+com_crashlytics_export_strings.xml
+
+# Local configuration file (SDK paths, etc)
+local.properties
+
+# Miscellaneous Android files
+**/generated/
+.idea/
+build/
+
+# Ignore Jetpack Compose compiler outputs
+
+/android-profile/
+
+# Ignore files created by the build system
+app/build/
+
+# Ignore Kotlin-specific files
+*.kotlin_metadata

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ImBored</string>
+    <string name="button_addActivity">Add Activity</string>
+    <string name="hint_activityTitle">Activity Title</string>
+    <string name="hint_activityDescription">Description</string>
+    <string name="menu_addActivity">Add Activity</string>
+    <string name="menu_cancelActivity">Cancel Activity</string>
+</resources>
