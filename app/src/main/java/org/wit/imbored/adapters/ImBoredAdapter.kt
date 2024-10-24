@@ -10,9 +10,10 @@ interface ImBoredListener {
     fun onActivityClick(activityItem: ImBoredModel)
 }
 
-class ImBoredAdapter constructor(private var activities: List<ImBoredModel>,
-                                 private val listener: ImBoredListener) :
-    RecyclerView.Adapter<ImBoredAdapter.MainHolder>() {
+class ImBoredAdapter constructor(
+    private var activities: List<ImBoredModel>,
+    private val listener: ImBoredListener
+) : RecyclerView.Adapter<ImBoredAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardImboredBinding
@@ -34,6 +35,8 @@ class ImBoredAdapter constructor(private var activities: List<ImBoredModel>,
         fun bind(activityItem: ImBoredModel, listener: ImBoredListener) {
             binding.activityTitle.text = activityItem.title
             binding.description.text = activityItem.description
+            binding.category.text = activityItem.category
+
             binding.root.setOnClickListener { listener.onActivityClick(activityItem) }
         }
     }

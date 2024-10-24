@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 data class ImBoredModel(
     var id: Long = 0,
     var title: String? = "",
-    var description: String? = ""
+    var description: String? = "",
+    var category: String? = ""
 ) : Parcelable

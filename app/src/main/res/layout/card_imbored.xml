@@ -16,8 +16,10 @@
             android:id="@+id/activityTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:textSize="24sp"
+            android:textColor="@android:color/black"
             tools:text="Activity Title" />
 
         <TextView
@@ -26,7 +28,17 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/activityTitle"
             android:textSize="16sp"
+            android:textColor="@android:color/black"
             tools:text="Activity Description" />
 
+        <TextView
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            tools:text="Category" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

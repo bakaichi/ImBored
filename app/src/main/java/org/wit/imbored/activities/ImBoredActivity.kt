@@ -1,10 +1,11 @@
 package org.wit.imbored.activities
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ArrayAdapter
 import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.app.AppCompatActivity
 import org.wit.imbored.R
 import org.wit.imbored.databinding.ActivityImboredBinding
 import org.wit.imbored.main.MainApp
@@ -29,24 +30,42 @@ class ImBoredActivity : AppCompatActivity() {
 
         Timber.i("ImBored Activity started...")
 
+        // Set up spinner
+        val categories = resources.getStringArray(R.array.activity_categories)
+        val spinnerAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            categories
+        )
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.categorySpinner.adapter = spinnerAdapter
+
+        // Check if editing an activity
         if (intent.hasExtra("activity_edit")) {
             activityItem = intent.extras?.getParcelable("activity_edit")!!
             binding.activityTitle.setText(activityItem.title)
             binding.description.setText(activityItem.description)
+
+            // Set the spinner to the correct category value
+            val categoryIndex = categories.indexOf(activityItem.category)
+            if (categoryIndex >= 0) {
+                binding.categorySpinner.setSelection(categoryIndex)
+            }
         }
 
         binding.btnAdd.setOnClickListener {
             activityItem.title = binding.activityTitle.text.toString()
             activityItem.description = binding.description.text.toString()
-            if (activityItem.title!!.isNotEmpty()) {
+            activityItem.category = binding.categorySpinner.selectedItem?.toString()
+
+            if (activityItem.title!!.isNotEmpty() && activityItem.category != "Select Category") {
                 app.activities.create(activityItem.copy())
                 Timber.i("Add Button Pressed: ${activityItem}")
                 setResult(RESULT_OK)
                 finish()
-            }
-            else {
+            } else {
                 Snackbar
-                    .make(it, "Please Enter a title", Snackbar.LENGTH_LONG)
+                    .make(it, "Please enter a title and select a valid category", Snackbar.LENGTH_LONG)
                     .show()
             }
         }

@@ -5,4 +5,14 @@
     <string name="hint_activityDescription">Description</string>
     <string name="menu_addActivity">Add Activity</string>
     <string name="menu_cancelActivity">Cancel Activity</string>
+    <string name="hint_activityCategory">Select Category</string>
+
+    <string name="hint_select_category">Select Category</string>
+    <string-array name="activity_categories">
+        <item>Select Category</item> <!-- Hint option -->
+        <item>Outdoors</item>
+        <item>Sports</item>
+        <item>Social</item>
+    </string-array>
+
 </resources>
