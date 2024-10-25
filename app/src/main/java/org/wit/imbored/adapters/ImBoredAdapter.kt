@@ -3,6 +3,7 @@ package org.wit.imbored.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import org.wit.imbored.databinding.CardImboredBinding
 import org.wit.imbored.models.ImBoredModel
 
@@ -36,6 +37,8 @@ class ImBoredAdapter constructor(
             binding.activityTitle.text = activityItem.title
             binding.description.text = activityItem.description
             binding.category.text = activityItem.category
+            Picasso.get().load(activityItem.image).resize(200,200).into(binding.imageIcon)
+
 
             binding.root.setOnClickListener { listener.onActivityClick(activityItem) }
         }

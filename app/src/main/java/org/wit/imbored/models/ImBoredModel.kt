@@ -10,6 +10,5 @@ data class ImBoredModel(
     var title: String? = "",
     var description: String? = "",
     var category: String? = "",
-    var imagePath: String = "",
     var image: Uri = Uri.EMPTY
 ) : Parcelable

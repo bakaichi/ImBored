@@ -16,7 +16,6 @@ import org.wit.imbored.databinding.ActivityImboredBinding
 import org.wit.imbored.helpers.showImagePicker
 import org.wit.imbored.main.MainApp
 import org.wit.imbored.models.ImBoredModel
-import org.wit.imbored.models.getId
 import timber.log.Timber
 
 class ImBoredActivity : AppCompatActivity() {
@@ -36,8 +35,6 @@ class ImBoredActivity : AppCompatActivity() {
 
         app = application as MainApp
 
-        // Register the image picker callback
-        registerImagePickerCallback()
 
         // Set up spinner with categories
         val categories = resources.getStringArray(R.array.activity_categories)
@@ -101,6 +98,8 @@ class ImBoredActivity : AppCompatActivity() {
             Timber.i("Select image")
             showImagePicker(imageIntentLauncher)
         }
+        // Register the image picker callback
+        registerImagePickerCallback()
     }
 
     private fun registerImagePickerCallback() {
