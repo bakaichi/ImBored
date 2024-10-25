@@ -27,6 +27,7 @@ class ImBoredMemStore : ImBoredStore {
         if (foundActivity != null) {
             foundActivity.title = activity.title
             foundActivity.description = activity.description
+            foundActivity.category = activity.category
             logAll()
         }
     }
