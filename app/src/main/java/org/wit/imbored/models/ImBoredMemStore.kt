@@ -28,6 +28,7 @@ class ImBoredMemStore : ImBoredStore {
             foundActivity.title = activity.title
             foundActivity.description = activity.description
             foundActivity.category = activity.category
+            foundActivity.image = activity.image
             logAll()
         }
     }

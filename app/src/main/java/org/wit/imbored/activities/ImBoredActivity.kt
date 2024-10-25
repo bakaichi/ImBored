@@ -1,22 +1,30 @@
 package org.wit.imbored.activities
 
+import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import org.wit.imbored.R
 import org.wit.imbored.databinding.ActivityImboredBinding
+import org.wit.imbored.helpers.showImagePicker
 import org.wit.imbored.main.MainApp
 import org.wit.imbored.models.ImBoredModel
+import org.wit.imbored.models.getId
 import timber.log.Timber
 
 class ImBoredActivity : AppCompatActivity() {
     private lateinit var binding: ActivityImboredBinding
-    var activityItem = ImBoredModel()
-    lateinit var app: MainApp
-    var edit = false
+    private var activityItem = ImBoredModel()
+    private lateinit var app: MainApp
+    private var edit = false
+    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +35,9 @@ class ImBoredActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarAdd)
 
         app = application as MainApp
+
+        // Register the image picker callback
+        registerImagePickerCallback()
 
         // Set up spinner with categories
         val categories = resources.getStringArray(R.array.activity_categories)
@@ -44,13 +55,20 @@ class ImBoredActivity : AppCompatActivity() {
             activityItem = intent.extras?.getParcelable("activity_edit")!!
             binding.activityTitle.setText(activityItem.title)
             binding.description.setText(activityItem.description)
+            Picasso.get()
+                .load(activityItem.image)
+                .into(binding.activityImage)
+            if (activityItem.image != Uri.EMPTY) {
+                binding.chooseImage.setText(R.string.change_activity_image)
+            }
 
             // Set the spinner to the correct category value when editing
             val categoryIndex = categories.indexOf(activityItem.category)
             if (categoryIndex >= 0) {
                 binding.categorySpinner.setSelection(categoryIndex)
             }
-            // Set button to edit instead of adding
+
+            // Set button text to indicate editing instead of adding
             binding.btnAdd.setText(R.string.edit_activity)
         }
 
@@ -77,6 +95,31 @@ class ImBoredActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+        // Set listener for choose image button
+        binding.chooseImage.setOnClickListener {
+            Timber.i("Select image")
+            showImagePicker(imageIntentLauncher)
+        }
+    }
+
+    private fun registerImagePickerCallback() {
+        imageIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            Timber.i("Got Result ${result.data!!.data}")
+                            activityItem.image = result.data!!.data!!
+                            Picasso.get()
+                                .load(activityItem.image)
+                                .into(binding.activityImage)
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
