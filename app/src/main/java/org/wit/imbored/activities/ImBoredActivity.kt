@@ -24,6 +24,7 @@ class ImBoredActivity : AppCompatActivity() {
     private lateinit var app: MainApp
     private var edit = false
     private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,6 +36,11 @@ class ImBoredActivity : AppCompatActivity() {
 
         app = application as MainApp
 
+        binding.placemarkLocation.setOnClickListener {
+            Timber.i("Set Location Pressed")
+            val launcherIntent = Intent(this, MapActivity::class.java)
+            mapIntentLauncher.launch(launcherIntent)
+        }
 
         // Set up spinner with categories
         val categories = resources.getStringArray(R.array.activity_categories)
@@ -98,8 +104,13 @@ class ImBoredActivity : AppCompatActivity() {
             Timber.i("Select image")
             showImagePicker(imageIntentLauncher)
         }
+
         // Register the image picker callback
         registerImagePickerCallback()
+
+        // Register the map callback
+        registerMapCallback()
+
     }
 
     private fun registerImagePickerCallback() {
@@ -133,5 +144,11 @@ class ImBoredActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun registerMapCallback() {
+        mapIntentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+            { Timber.i("Map Loaded") }
     }
 }
