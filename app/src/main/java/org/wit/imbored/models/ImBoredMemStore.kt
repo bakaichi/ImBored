@@ -36,6 +36,10 @@ class ImBoredMemStore : ImBoredStore {
         }
     }
 
+    override fun delete(activity: ImBoredModel) {
+        activities.remove(activity)
+    }
+
     private fun logAll() {
         activities.forEach { Timber.i("$it") }
     }

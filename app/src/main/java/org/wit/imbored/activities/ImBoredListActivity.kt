@@ -58,9 +58,9 @@ class ImBoredListActivity : AppCompatActivity(), ImBoredListener {
             }
         }
 
-    override fun onActivityClick(activity: ImBoredModel) {
+    override fun onActivityClick(activityItem: ImBoredModel) {
         val launcherIntent = Intent(this, ImBoredActivity::class.java)
-        launcherIntent.putExtra("activity_edit", activity)
+        launcherIntent.putExtra("activity_edit", activityItem)
         getClickResult.launch(launcherIntent)
     }
 
@@ -70,6 +70,6 @@ class ImBoredListActivity : AppCompatActivity(), ImBoredListener {
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
                 (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.activities.findAll().size)
-            }
-        }
+            } else
+                binding.recyclerView.adapter = ImBoredAdapter(app.activities.findAll(),this)            }
 }

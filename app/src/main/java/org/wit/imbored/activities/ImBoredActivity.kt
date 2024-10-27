@@ -8,12 +8,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import org.wit.imbored.R
 import org.wit.imbored.databinding.ActivityImboredBinding
-import org.wit.imbored.helpers.showImagePicker
 import org.wit.imbored.main.MainApp
 import org.wit.imbored.models.ImBoredModel
 import org.wit.imbored.models.Location
@@ -24,7 +24,7 @@ class ImBoredActivity : AppCompatActivity() {
     private var activityItem = ImBoredModel()
     private lateinit var app: MainApp
     private var edit = false
-    private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
+    private lateinit var imageIntentLauncher: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,8 +73,10 @@ class ImBoredActivity : AppCompatActivity() {
 
         // Set listener for choose image button
         binding.chooseImage.setOnClickListener {
-            Timber.i("Select image")
-            showImagePicker(imageIntentLauncher)
+            val request = PickVisualMediaRequest.Builder()
+                .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                .build()
+            imageIntentLauncher.launch(request)
         }
 
         // Set listener for activity location button
@@ -121,28 +123,26 @@ class ImBoredActivity : AppCompatActivity() {
     }
 
     private fun registerImagePickerCallback() {
-        imageIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                when (result.resultCode) {
-                    RESULT_OK -> {
-                        if (result.data != null) {
-                            val uri = result.data!!.data!!
-                            Timber.i("Got Result $uri")
-                            activityItem.image = uri
-                            // Load the image into the ImageView using Picasso
-                            Picasso.get()
-                                .load(activityItem.image)
-                                .into(binding.activityImage)
-                            // give persistent URI permission
-                            contentResolver.takePersistableUriPermission(
-                                uri,
-                                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                            )
-                            binding.chooseImage.setText(R.string.change_activity_image)
-                        }
-                    }
+        imageIntentLauncher = registerForActivityResult(
+            ActivityResultContracts.PickVisualMedia()
+        ) {
+            try {
+                if (it != null) {
+                    contentResolver.takePersistableUriPermission(
+                        it,
+                        Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    )
+                    activityItem.image = it // The returned Uri
+                    Timber.i("IMG :: ${activityItem.image}")
+                    Picasso.get()
+                        .load(activityItem.image)
+                        .into(binding.activityImage)
+                    binding.chooseImage.setText(R.string.change_activity_image)
                 }
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -152,6 +152,10 @@ class ImBoredActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            R.id.item_delete -> {
+                app.activities.delete(activityItem)
+                finish()
+            }
             R.id.item_cancel -> {
                 finish()
             }
@@ -166,7 +170,6 @@ class ImBoredActivity : AppCompatActivity() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Location ${result.data.toString()}")
-                            // Retrieve updated location and set it to activityItem
                             val location = result.data!!.extras?.getParcelable<Location>("location")!!
                             Timber.i("Location == $location")
                             activityItem.lat = location.lat

@@ -13,7 +13,7 @@
     <string name="change_activity_image">Change activity image</string>
     <string name="button_location">Set Location</string>
     <string name="title_activity_map">MapActivity</string>
-
+    <string name="menu_deleteActivity">Delete</string>
 
     <string-array name="hint_select_category">Select Category</string-array>
     <string-array name="activity_categories">
