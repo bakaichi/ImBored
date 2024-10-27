@@ -16,6 +16,7 @@ import org.wit.imbored.databinding.ActivityImboredBinding
 import org.wit.imbored.helpers.showImagePicker
 import org.wit.imbored.main.MainApp
 import org.wit.imbored.models.ImBoredModel
+import org.wit.imbored.models.Location
 import timber.log.Timber
 
 class ImBoredActivity : AppCompatActivity() {
@@ -23,8 +24,9 @@ class ImBoredActivity : AppCompatActivity() {
     private var activityItem = ImBoredModel()
     private lateinit var app: MainApp
     private var edit = false
-    private lateinit var imageIntentLauncher : ActivityResultLauncher<Intent>
-    private lateinit var mapIntentLauncher : ActivityResultLauncher<Intent>
+    private var location = Location(51.8985, -8.4756, 15f)
+    private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
+    private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,12 +37,6 @@ class ImBoredActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbarAdd)
 
         app = application as MainApp
-
-        binding.placemarkLocation.setOnClickListener {
-            Timber.i("Set Location Pressed")
-            val launcherIntent = Intent(this, MapActivity::class.java)
-            mapIntentLauncher.launch(launcherIntent)
-        }
 
         // Set up spinner with categories
         val categories = resources.getStringArray(R.array.activity_categories)
@@ -56,11 +52,12 @@ class ImBoredActivity : AppCompatActivity() {
         if (intent.hasExtra("activity_edit")) {
             edit = true
             activityItem = intent.extras?.getParcelable("activity_edit")!!
+
+            // Set input fields with existing values
             binding.activityTitle.setText(activityItem.title)
             binding.description.setText(activityItem.description)
-            Picasso.get()
-                .load(activityItem.image)
-                .into(binding.activityImage)
+            Picasso.get().load(activityItem.image).into(binding.activityImage)
+
             if (activityItem.image != Uri.EMPTY) {
                 binding.chooseImage.setText(R.string.change_activity_image)
             }
@@ -71,8 +68,25 @@ class ImBoredActivity : AppCompatActivity() {
                 binding.categorySpinner.setSelection(categoryIndex)
             }
 
-            // Set button text to indicate editing instead of adding
+            // Set the current location for editing (only if not empty)
+            if (activityItem.lat != 0.0 || activityItem.lng != 0.0) {
+                location = Location(activityItem.lat, activityItem.lng, activityItem.zoom)
+            }
+
+            // Update button text
             binding.btnAdd.setText(R.string.edit_activity)
+        }
+
+        // Set listener for choose image button
+        binding.chooseImage.setOnClickListener {
+            Timber.i("Select image")
+            showImagePicker(imageIntentLauncher)
+        }
+
+        // Set listener for activity location button
+        binding.activityLocation.setOnClickListener {
+            val launcherIntent = Intent(this, MapActivity::class.java).putExtra("location", location)
+            mapIntentLauncher.launch(launcherIntent)
         }
 
         binding.btnAdd.setOnClickListener {
@@ -82,9 +96,13 @@ class ImBoredActivity : AppCompatActivity() {
             activityItem.category = binding.categorySpinner.selectedItem?.toString()
 
             if (activityItem.title!!.isEmpty() || activityItem.category == getString(R.string.hint_activityCategory)) {
-                Snackbar.make(it, R.string.enter_valid_title_category, Snackbar.LENGTH_LONG)
-                    .show()
+                Snackbar.make(it, R.string.enter_valid_title_category, Snackbar.LENGTH_LONG).show()
             } else {
+                // Save the current location values
+                activityItem.lat = location.lat
+                activityItem.lng = location.lng
+                activityItem.zoom = location.zoom
+
                 if (edit) {
                     // Update the existing activity
                     app.activities.update(activityItem.copy())
@@ -99,18 +117,11 @@ class ImBoredActivity : AppCompatActivity() {
             }
         }
 
-        // Set listener for choose image button
-        binding.chooseImage.setOnClickListener {
-            Timber.i("Select image")
-            showImagePicker(imageIntentLauncher)
-        }
-
         // Register the image picker callback
         registerImagePickerCallback()
 
         // Register the map callback
         registerMapCallback()
-
     }
 
     private fun registerImagePickerCallback() {
@@ -149,6 +160,20 @@ class ImBoredActivity : AppCompatActivity() {
     private fun registerMapCallback() {
         mapIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { Timber.i("Map Loaded") }
+            { result ->
+                when (result.resultCode) {
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            Timber.i("Got Location ${result.data.toString()}")
+                            location = result.data!!.extras?.getParcelable("location")!!
+                            Timber.i("Location == $location")
+                            activityItem.lat = location.lat
+                            activityItem.lng = location.lng
+                            activityItem.zoom = location.zoom
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
     }
 }
