@@ -23,12 +23,15 @@ class ImBoredMemStore : ImBoredStore {
     }
 
     override fun update(activity: ImBoredModel) {
-        var foundActivity: ImBoredModel? = activities.find { p -> p.id == activity.id }
+        val foundActivity: ImBoredModel? = activities.find { p -> p.id == activity.id }
         if (foundActivity != null) {
             foundActivity.title = activity.title
             foundActivity.description = activity.description
             foundActivity.category = activity.category
             foundActivity.image = activity.image
+            foundActivity.lat = activity.lat
+            foundActivity.lng = activity.lng
+            foundActivity.zoom = activity.zoom
             logAll()
         }
     }

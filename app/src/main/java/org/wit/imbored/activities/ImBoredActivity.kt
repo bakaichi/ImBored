@@ -24,7 +24,6 @@ class ImBoredActivity : AppCompatActivity() {
     private var activityItem = ImBoredModel()
     private lateinit var app: MainApp
     private var edit = false
-    private var location = Location(51.8985, -8.4756, 15f)
     private lateinit var imageIntentLauncher: ActivityResultLauncher<Intent>
     private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
 
@@ -68,11 +67,6 @@ class ImBoredActivity : AppCompatActivity() {
                 binding.categorySpinner.setSelection(categoryIndex)
             }
 
-            // Set the current location for editing (only if not empty)
-            if (activityItem.lat != 0.0 || activityItem.lng != 0.0) {
-                location = Location(activityItem.lat, activityItem.lng, activityItem.zoom)
-            }
-
             // Update button text
             binding.btnAdd.setText(R.string.edit_activity)
         }
@@ -85,7 +79,14 @@ class ImBoredActivity : AppCompatActivity() {
 
         // Set listener for activity location button
         binding.activityLocation.setOnClickListener {
-            val launcherIntent = Intent(this, MapActivity::class.java).putExtra("location", location)
+            val location = Location(51.8985, -8.4756, 15f)
+            if (activityItem.zoom != 0f) {
+                location.lat = activityItem.lat
+                location.lng = activityItem.lng
+                location.zoom = activityItem.zoom
+            }
+            val launcherIntent = Intent(this, MapActivity::class.java)
+                .putExtra("location", location)
             mapIntentLauncher.launch(launcherIntent)
         }
 
@@ -98,11 +99,6 @@ class ImBoredActivity : AppCompatActivity() {
             if (activityItem.title!!.isEmpty() || activityItem.category == getString(R.string.hint_activityCategory)) {
                 Snackbar.make(it, R.string.enter_valid_title_category, Snackbar.LENGTH_LONG).show()
             } else {
-                // Save the current location values
-                activityItem.lat = location.lat
-                activityItem.lng = location.lng
-                activityItem.zoom = location.zoom
-
                 if (edit) {
                     // Update the existing activity
                     app.activities.update(activityItem.copy())
@@ -165,20 +161,19 @@ class ImBoredActivity : AppCompatActivity() {
 
     private fun registerMapCallback() {
         mapIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result ->
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 when (result.resultCode) {
                     RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Location ${result.data.toString()}")
-                            location = result.data!!.extras?.getParcelable("location")!!
+                            // Retrieve updated location and set it to activityItem
+                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
                             Timber.i("Location == $location")
                             activityItem.lat = location.lat
                             activityItem.lng = location.lng
                             activityItem.zoom = location.zoom
-                        } // end of if
+                        }
                     }
-                    RESULT_CANCELED -> { } else -> { }
                 }
             }
     }
