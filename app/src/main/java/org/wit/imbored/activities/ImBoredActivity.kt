@@ -126,19 +126,25 @@ class ImBoredActivity : AppCompatActivity() {
 
     private fun registerImagePickerCallback() {
         imageIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { result ->
-                when(result.resultCode){
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                when (result.resultCode) {
                     RESULT_OK -> {
                         if (result.data != null) {
-                            Timber.i("Got Result ${result.data!!.data}")
-                            activityItem.image = result.data!!.data!!
+                            val uri = result.data!!.data!!
+                            Timber.i("Got Result $uri")
+                            activityItem.image = uri
+                            // Load the image into the ImageView using Picasso
                             Picasso.get()
                                 .load(activityItem.image)
                                 .into(binding.activityImage)
-                        } // end of if
+                            // give persistent URI permission
+                            contentResolver.takePersistableUriPermission(
+                                uri,
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                            )
+                            binding.chooseImage.setText(R.string.change_activity_image)
+                        }
                     }
-                    RESULT_CANCELED -> { } else -> { }
                 }
             }
     }
