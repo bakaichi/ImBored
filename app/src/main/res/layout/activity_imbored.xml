@@ -16,16 +16,17 @@
         android:fitsSystemWindows="true"
         app:elevation="0dp"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        tools:ignore="MissingConstraints">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleTextColor="@color/colorPrimary" />
+            app:titleTextColor="@color/colorPrimary"
+            app:layout_scrollFlags="scroll|enterAlways" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Layout containing the fields and buttons -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -33,56 +34,67 @@
         app:layout_constraintBottom_toBottomOf="parent"
         android:padding="16dp">
 
+        <!-- Activity EditText -->
         <EditText
             android:id="@+id/activityTitle"
-            android:layout_width="382dp"
-            android:layout_height="52dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:hint="@string/hint_activityTitle"
             android:inputType="text"
             android:maxLines="1"
-            android:padding="8dp"
+            android:padding="16dp"
+            android:importantForAccessibility="yes"
+            android:autofillHints="username"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Description EditText -->
         <EditText
             android:id="@+id/description"
-            android:layout_width="382dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="15dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:hint="@string/hint_activityDescription"
             android:inputType="textMultiLine"
             android:maxLines="3"
-            android:padding="8dp"
+            android:padding="16dp"
+            android:importantForAccessibility="yes"
+            android:autofillHints="username"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activityTitle" />
 
+        <!-- Category Spinner -->
         <Spinner
             android:id="@+id/categorySpinner"
             android:layout_width="0dp"
-            android:layout_height="52dp"
-            android:layout_marginTop="15dp"
-            android:prompt="@string/hint_activityCategory"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:padding="16dp"
+            android:importantForAccessibility="yes"
+            android:contentDescription="@string/hint_activityCategory"
             android:spinnerMode="dropdown"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/description" />
 
+        <!-- Choose Image Button -->
         <Button
             android:id="@+id/chooseImage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:backgroundTint="@color/colorAccent"
+            android:padding="16dp"
             android:text="@string/button_addImage"
+            android:importantForAccessibility="yes"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
             app:cornerRadius="16dp"
@@ -90,14 +102,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/categorySpinner" />
 
+        <!-- Activity Location Button -->
         <Button
             android:id="@+id/activityLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="16dp"
             android:backgroundTint="@color/colorAccent"
+            android:padding="16dp"
             android:text="@string/button_location"
+            android:importantForAccessibility="yes"
             android:textColor="@color/colorPrimary"
             android:textSize="14sp"
             app:cornerRadius="16dp"
@@ -105,35 +120,79 @@
             app:layout_constraintStart_toEndOf="@+id/chooseImage"
             app:layout_constraintTop_toBottomOf="@+id/categorySpinner" />
 
+        <!-- Date Picker Button -->
+        <Button
+            android:id="@+id/chooseDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:padding="16dp"
+            android:importantForAccessibility="yes"
+            android:text="@string/button_select_date"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@+id/chooseImage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Time Picker Button -->
+        <Button
+            android:id="@+id/chooseTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="16dp"
+            android:importantForAccessibility="yes"
+            android:text="@string/button_select_time"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@+id/chooseDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Recurrence Spinner -->
+        <Spinner
+            android:id="@+id/recurrenceSpinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:padding="16dp"
+            android:importantForAccessibility="yes"
+            android:contentDescription="@string/recurrence_hint"
+            android:spinnerMode="dropdown"
+            app:layout_constraintTop_toBottomOf="@+id/chooseTime"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Activity Image Preview -->
         <ImageView
             android:id="@+id/activityImage"
             android:layout_width="0dp"
-            android:layout_height="200dp"
-            android:layout_marginTop="40dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="16dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
+            android:contentDescription="@string/image_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activityLocation"
+            app:layout_constraintTop_toBottomOf="@+id/recurrenceSpinner"
             app:srcCompat="@mipmap/ic_launcher" />
 
+        <!-- Add/Edit Activity Button -->
         <Button
             android:id="@+id/btnAdd"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:backgroundTint="@color/colorAccent"
-            android:padding="12dp"
+            android:padding="16dp"
+            android:importantForAccessibility="yes"
             android:text="@string/button_addActivity"
             android:textColor="@color/colorPrimary"
             android:textSize="16sp"
             app:cornerRadius="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/activityImage"
-            app:layout_constraintVertical_bias="0.261" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

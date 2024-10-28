@@ -32,6 +32,8 @@ class ImBoredMemStore : ImBoredStore {
             foundActivity.lat = activity.lat
             foundActivity.lng = activity.lng
             foundActivity.zoom = activity.zoom
+            foundActivity.dateTime = activity.dateTime
+            foundActivity.recurrence = activity.recurrence
             logAll()
         }
     }

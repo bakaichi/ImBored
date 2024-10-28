@@ -15,6 +15,10 @@
     <string name="title_activity_map">MapActivity</string>
     <string name="menu_deleteActivity">Delete</string>
     <string name="title_activity_activities_maps">Map of All Activities</string>
+    <string name="image_description">Image of an event</string>
+    <string name="button_select_date">Select a Date</string>
+    <string name="button_select_time">Select the time of activity</string>
+    <string name="recurrence_hint">How often event held</string>
 
     <string-array name="hint_select_category">Select Category</string-array>
     <string-array name="activity_categories">
@@ -23,5 +27,15 @@
         <item>Sports</item>
         <item>Social</item>
     </string-array>
+
+    <string-array name="recurrence_options">
+        <item>None</item>
+        <item>Every Day</item>
+        <item>Every Saturday</item>
+        <item>Every Sunday</item>
+        <item>Every Week</item>
+        <item>Every Month</item>
+    </string-array>
+
 
 </resources>

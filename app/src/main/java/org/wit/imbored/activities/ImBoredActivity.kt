@@ -1,11 +1,15 @@
 package org.wit.imbored.activities
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
@@ -37,6 +41,27 @@ class ImBoredActivity : AppCompatActivity() {
 
         app = application as MainApp
 
+        // Set up recurrence options and adapter
+        val recurrenceOptions = resources.getStringArray(R.array.recurrence_options)
+        val recurrenceAdapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            recurrenceOptions
+        )
+        recurrenceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.recurrenceSpinner.adapter = recurrenceAdapter
+
+        // Set listener for recurrence selection
+        binding.recurrenceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                activityItem.recurrence = recurrenceOptions[position]
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                activityItem.recurrence = "None"
+            }
+        }
+
         // Set up spinner with categories
         val categories = resources.getStringArray(R.array.activity_categories)
         val spinnerAdapter = ArrayAdapter(
@@ -46,6 +71,36 @@ class ImBoredActivity : AppCompatActivity() {
         )
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.categorySpinner.adapter = spinnerAdapter
+
+        binding.chooseDate.setOnClickListener {
+            val datePicker = DatePickerDialog(
+                this,
+                { _, year, month, dayOfMonth ->
+                    val formattedDate = "$dayOfMonth/${month + 1}/$year"
+                    activityItem.dateTime = "$formattedDate ${activityItem.dateTime?.split(" ")?.getOrNull(1) ?: ""}"
+                    binding.chooseDate.text = formattedDate
+                },
+                2023,  // Default Year
+                0,     // Default Month
+                1      // Default Day
+            )
+            datePicker.show()
+        }
+
+        binding.chooseTime.setOnClickListener {
+            val timePicker = TimePickerDialog(
+                this,
+                { _, hourOfDay, minute ->
+                    val formattedTime = String.format("%02d:%02d", hourOfDay, minute)
+                    activityItem.dateTime = "${activityItem.dateTime?.split(" ")?.getOrNull(0) ?: ""} $formattedTime"
+                    binding.chooseTime.text = formattedTime
+                },
+                12,    // Default Hour
+                0,     // Default Minute
+                true  // 24-hour clock
+            )
+            timePicker.show()
+        }
 
         // Check if editing an activity
         if (intent.hasExtra("activity_edit")) {
@@ -61,10 +116,25 @@ class ImBoredActivity : AppCompatActivity() {
                 binding.chooseImage.setText(R.string.change_activity_image)
             }
 
-            // Set the spinner to the correct category value when editing
+            // Set the category spinner to the correct category value when editing
             val categoryIndex = categories.indexOf(activityItem.category)
             if (categoryIndex >= 0) {
                 binding.categorySpinner.setSelection(categoryIndex)
+            }
+
+            // Set the recurrence spinner to the correct value when editing
+            val recurrenceIndex = recurrenceOptions.indexOf(activityItem.recurrence)
+            if (recurrenceIndex >= 0) {
+                binding.recurrenceSpinner.setSelection(recurrenceIndex)
+            }
+
+            // Set the date button text to the current date if it exists
+            val dateTime = activityItem.dateTime?.split(" ")
+            if (dateTime != null && dateTime.size > 1) {
+                binding.chooseDate.text = dateTime[0] // Set the date part
+                binding.chooseTime.text = dateTime[1] // Set the time part
+            } else if (dateTime != null && dateTime.size == 1) {
+                binding.chooseDate.text = dateTime[0] // Set the date if only date exists
             }
 
             // Update button text
@@ -98,6 +168,20 @@ class ImBoredActivity : AppCompatActivity() {
             activityItem.description = binding.description.text.toString()
             activityItem.category = binding.categorySpinner.selectedItem?.toString()
 
+            // Capture date, time, and recurrence changes
+            val selectedDate = binding.chooseDate.text.toString()
+            val selectedTime = binding.chooseTime.text.toString()
+
+            // Only update dateTime if the date and time were selected (not default)
+            if (selectedDate != "Select Date" && selectedTime != "Select Time") {
+                activityItem.dateTime = "$selectedDate $selectedTime"
+            } else if (selectedDate != "Select Date") {
+                activityItem.dateTime = selectedDate
+            }
+
+            activityItem.recurrence = binding.recurrenceSpinner.selectedItem.toString()
+
+            // Validation for empty fields
             if (activityItem.title!!.isEmpty() || activityItem.category == getString(R.string.hint_activityCategory)) {
                 Snackbar.make(it, R.string.enter_valid_title_category, Snackbar.LENGTH_LONG).show()
             } else {

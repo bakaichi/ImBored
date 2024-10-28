@@ -37,8 +37,10 @@ class ImBoredAdapter constructor(
             binding.activityTitle.text = activityItem.title
             binding.description.text = activityItem.description
             binding.category.text = activityItem.category
-            Picasso.get().load(activityItem.image).resize(200,200).into(binding.imageIcon)
+            binding.dateTime.text = activityItem.dateTime
+            binding.recurrence.text = "Recurrence: ${activityItem.recurrence}"
 
+            Picasso.get().load(activityItem.image).resize(150,150).into(binding.imageIcon)
 
             binding.root.setOnClickListener { listener.onActivityClick(activityItem) }
         }

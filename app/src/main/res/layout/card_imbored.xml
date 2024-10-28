@@ -52,7 +52,29 @@
             app:layout_constraintTop_toBottomOf="@id/activityTitle"
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="Activity Description" />
+        <TextView
+            android:id="@+id/dateTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginStart="8dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toEndOf="@+id/imageIcon"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Date: 10/12/2023 10:30 AM" />
 
+        <TextView
+            android:id="@+id/recurrence"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dateTime"
+            tools:text="Recurrence: Every Saturday" />
         <TextView
             android:id="@+id/category"
             android:layout_width="wrap_content"
