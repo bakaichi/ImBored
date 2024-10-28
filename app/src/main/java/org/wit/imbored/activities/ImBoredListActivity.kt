@@ -19,6 +19,10 @@ class ImBoredListActivity : AppCompatActivity(), ImBoredListener {
 
     lateinit var app: MainApp
     private lateinit var binding: ActivityImboredListBinding
+    private val mapIntentLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()
+        )    { }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,7 +48,9 @@ class ImBoredListActivity : AppCompatActivity(), ImBoredListener {
             R.id.item_add -> {
                 val launcherIntent = Intent(this, ImBoredActivity::class.java)
                 getResult.launch(launcherIntent)
-            }
+            } R.id.item_map -> {
+                val launcherIntent = Intent(this, ImboredMapsActivity::class.java)
+                mapIntentLauncher.launch(launcherIntent)          }
         }
         return super.onOptionsItemSelected(item)
     }

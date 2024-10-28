@@ -35,6 +35,10 @@ class ImBoredMemStore : ImBoredStore {
             logAll()
         }
     }
+    override fun findById(id: Long): ImBoredModel? {
+        val foundActivity: ImBoredModel? = activities.find { it.id == id }
+        return foundActivity
+    }
 
     override fun delete(activity: ImBoredModel) {
         activities.remove(activity)

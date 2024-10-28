@@ -5,4 +5,5 @@ interface ImBoredStore {
     fun create(activity: ImBoredModel)
     fun update(activity: ImBoredModel)
     fun delete(activity: ImBoredModel)
+    fun findById(id: Long): ImBoredModel?
 }
