@@ -38,7 +38,7 @@ class ImBoredAdapter constructor(
             binding.description.text = activityItem.description
             binding.category.text = activityItem.category
             binding.dateTime.text = activityItem.dateTime
-            binding.recurrence.text = "Recurrence: ${activityItem.recurrence}"
+            binding.recurrence.text = activityItem.recurrence
 
             Picasso.get().load(activityItem.image).resize(150,150).into(binding.imageIcon)
 

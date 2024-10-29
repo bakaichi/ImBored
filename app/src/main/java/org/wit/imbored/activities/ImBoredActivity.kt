@@ -1,5 +1,6 @@
 package org.wit.imbored.activities
 
+import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
@@ -31,6 +32,7 @@ class ImBoredActivity : AppCompatActivity() {
     private lateinit var imageIntentLauncher: ActivityResultLauncher<PickVisualMediaRequest>
     private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
 
+    @SuppressLint("DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,16 +53,22 @@ class ImBoredActivity : AppCompatActivity() {
         recurrenceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.recurrenceSpinner.adapter = recurrenceAdapter
 
-        // Set listener for recurrence selection
-        binding.recurrenceSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                activityItem.recurrence = recurrenceOptions[position]
-            }
+        //  listener for recurrence selection
+        binding.recurrenceSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    activityItem.recurrence = recurrenceOptions[position]
+                }
 
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                activityItem.recurrence = "None"
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                    activityItem.recurrence = "None"
+                }
             }
-        }
 
         // Set up spinner with categories
         val categories = resources.getStringArray(R.array.activity_categories)
@@ -77,7 +85,8 @@ class ImBoredActivity : AppCompatActivity() {
                 this,
                 { _, year, month, dayOfMonth ->
                     val formattedDate = "$dayOfMonth/${month + 1}/$year"
-                    activityItem.dateTime = "$formattedDate ${activityItem.dateTime?.split(" ")?.getOrNull(1) ?: ""}"
+                    activityItem.dateTime =
+                        "$formattedDate ${activityItem.dateTime?.split(" ")?.getOrNull(1) ?: ""}"
                     binding.chooseDate.text = formattedDate
                 },
                 2023,  // Default Year
@@ -92,7 +101,8 @@ class ImBoredActivity : AppCompatActivity() {
                 this,
                 { _, hourOfDay, minute ->
                     val formattedTime = String.format("%02d:%02d", hourOfDay, minute)
-                    activityItem.dateTime = "${activityItem.dateTime?.split(" ")?.getOrNull(0) ?: ""} $formattedTime"
+                    activityItem.dateTime =
+                        "${activityItem.dateTime?.split(" ")?.getOrNull(0) ?: ""} $formattedTime"
                     binding.chooseTime.text = formattedTime
                 },
                 12,    // Default Hour
@@ -238,9 +248,12 @@ class ImBoredActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.item_delete -> {
                 app.activities.delete(activityItem)
+                setResult(RESULT_OK)
                 finish()
             }
+
             R.id.item_cancel -> {
+                setResult(RESULT_CANCELED)
                 finish()
             }
         }
@@ -254,7 +267,8 @@ class ImBoredActivity : AppCompatActivity() {
                     RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("Got Location ${result.data.toString()}")
-                            val location = result.data!!.extras?.getParcelable<Location>("location")!!
+                            val location =
+                                result.data!!.extras?.getParcelable<Location>("location")!!
                             Timber.i("Location == $location")
                             activityItem.lat = location.lat
                             activityItem.lng = location.lng

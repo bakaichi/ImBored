@@ -1,9 +1,8 @@
 package org.wit.imbored.activities
 
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.clans.fab.FloatingActionMenu
@@ -21,11 +20,6 @@ class ImBoredListActivity : AppCompatActivity(), ImBoredListener {
     private lateinit var binding: ActivityImboredListBinding
     private lateinit var floatingActionHelper: FloatingActionHelper
 
-    private val mapIntentLauncher =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) { }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityImboredListBinding.inflate(layoutInflater)
@@ -35,29 +29,37 @@ class ImBoredListActivity : AppCompatActivity(), ImBoredListener {
 
         app = application as MainApp
 
-        val layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.layoutManager = layoutManager
+        // Initialize RecyclerView
+        binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = ImBoredAdapter(app.activities.findAll(), this)
 
-        // Initialize the Floating Action Menu and its actions
+        // Initialize Floating Action Menu
         val fabMenu: FloatingActionMenu = findViewById(R.id.fab_menu)
         floatingActionHelper = FloatingActionHelper(this, fabMenu) { filteredActivities ->
             binding.recyclerView.adapter = ImBoredAdapter(filteredActivities, this)
         }
         floatingActionHelper.setupFAB()
 
-        // Set up Map button
+        // Set up Map button in toolbar
         binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_map -> {
                     val launcherIntent = Intent(this, ImboredMapsActivity::class.java)
                     launcherIntent.putExtra("filteredActivities", ArrayList(floatingActionHelper.getFilteredActivities()))
-                    mapIntentLauncher.launch(launcherIntent)
+                    startActivity(launcherIntent)
                     true
                 }
                 else -> false
             }
         }
+    }
+
+    // Refresh recycler view
+    @SuppressLint("NotifyDataSetChanged")
+    override fun onResume() {
+        super.onResume()
+        binding.recyclerView.adapter = ImBoredAdapter(floatingActionHelper.getFilteredActivities(), this)
+        binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
@@ -68,15 +70,6 @@ class ImBoredListActivity : AppCompatActivity(), ImBoredListener {
     override fun onActivityClick(activityItem: ImBoredModel) {
         val launcherIntent = Intent(this, ImBoredActivity::class.java)
         launcherIntent.putExtra("activity_edit", activityItem)
-        getClickResult.launch(launcherIntent)
+        startActivity(launcherIntent)
     }
-
-    private val getClickResult =
-        registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()
-        ) {
-            if (it.resultCode == Activity.RESULT_OK) {
-                (binding.recyclerView.adapter)?.notifyItemRangeChanged(0, app.activities.findAll().size)
-            }
-        }
 }
