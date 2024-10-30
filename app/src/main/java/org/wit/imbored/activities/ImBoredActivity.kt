@@ -89,8 +89,8 @@ class ImBoredActivity : AppCompatActivity() {
                         "$formattedDate ${activityItem.dateTime?.split(" ")?.getOrNull(1) ?: ""}"
                     binding.chooseDate.text = formattedDate
                 },
-                2023,  // Default Year
-                0,     // Default Month
+                2024,  // Default Year
+                10,     // Default Month
                 1      // Default Day
             )
             datePicker.show()
