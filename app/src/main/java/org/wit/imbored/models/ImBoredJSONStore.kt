@@ -54,6 +54,7 @@ class ImBoredJSONStore(private val context: Context) : ImBoredStore {
             foundActivity.dateTime = activity.dateTime
             foundActivity.recurrence = activity.recurrence
             logAll()
+            serialize()
         }
     }
 
