@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.plugin.parcelize")
     alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -58,4 +59,7 @@ dependencies {
     implementation(libs.picasso)
     implementation(libs.gson)
     implementation(libs.clans.fab)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 }

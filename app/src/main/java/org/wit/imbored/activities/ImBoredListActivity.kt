@@ -3,6 +3,8 @@ package org.wit.imbored.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.clans.fab.FloatingActionMenu
@@ -39,18 +41,14 @@ class ImBoredListActivity : AppCompatActivity(), ImBoredListener {
             binding.recyclerView.adapter = ImBoredAdapter(filteredActivities, this)
         }
         floatingActionHelper.setupFAB()
+    }
 
-        // Set up Map button in toolbar
-        binding.toolbar.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.item_map -> {
-                    val launcherIntent = Intent(this, ImboredMapsActivity::class.java)
-                    launcherIntent.putExtra("filteredActivities", ArrayList(floatingActionHelper.getFilteredActivities()))
-                    startActivity(launcherIntent)
-                    true
-                }
-                else -> false
-            }
+    // Check authentication status in onStart()
+    override fun onStart() {
+        super.onStart()
+        if (app.auth.currentUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
     }
 
@@ -62,9 +60,29 @@ class ImBoredListActivity : AppCompatActivity(), ImBoredListener {
         binding.recyclerView.adapter?.notifyDataSetChanged()
     }
 
-    override fun onCreateOptionsMenu(menu: android.view.Menu): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        return super.onCreateOptionsMenu(menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.item_map -> {
+                val launcherIntent = Intent(this, ImboredMapsActivity::class.java)
+                launcherIntent.putExtra("filteredActivities", ArrayList(floatingActionHelper.getFilteredActivities()))
+                startActivity(launcherIntent)
+                true
+            }
+            R.id.item_logout -> {
+                app.auth.signOut()
+                val intent = Intent(this, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onActivityClick(activityItem: ImBoredModel) {

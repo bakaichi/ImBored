@@ -15,6 +15,9 @@ googleAndroidLibrariesMapsplatformSecretsGradlePlugin = "2.0.1"
 playServicesMaps = "19.0.0"
 gson = "2.10.1"
 clansFab = "1.6.4"
+firebase-bom = "32.1.1"
+firebase-auth = "22.1.1"
+google-services = "4.3.15"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -30,9 +33,11 @@ picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServicesMaps" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 clans-fab = { group = "com.github.clans", name = "fab", version.ref = "clansFab" }
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebase-bom" }
+firebase-auth = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebase-auth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 google-android-libraries-mapsplatform-secrets-gradle-plugin = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "googleAndroidLibrariesMapsplatformSecretsGradlePlugin" }
-
+google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }

@@ -17,7 +17,8 @@
         app:elevation="0dp"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbarAdd"

@@ -19,6 +19,12 @@
     <string name="button_select_date">Select a Date</string>
     <string name="button_select_time">Select the time of activity</string>
     <string name="recurrence_hint">How often event held</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="back_to_login">Back to Login</string>
 
     <string-array name="hint_select_category">Select Category</string-array>
     <string-array name="activity_categories">

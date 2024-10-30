@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "234013104970",
+    "project_id": "imbored-auth",
+    "storage_bucket": "imbored-auth.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:234013104970:android:f19d719c1e20d786c4ffb3",
+        "android_client_info": {
+          "package_name": "org.wit.imbored"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiw8wXje63RBeOPcP8WrjiXJwySyu3jz0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
