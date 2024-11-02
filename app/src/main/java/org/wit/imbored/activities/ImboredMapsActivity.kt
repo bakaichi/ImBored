@@ -93,9 +93,9 @@ class ImboredMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener
         map.uiSettings.isZoomControlsEnabled = true
 
         if (filteredActivities.isNotEmpty()) {
-            val firstActivity = filteredActivities.first()
-            val initialLocation = LatLng(firstActivity.lat, firstActivity.lng)
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, firstActivity.zoom))
+            val lastActivity = filteredActivities.last()
+            val initialLocation = LatLng(lastActivity.lat, lastActivity.lng)
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(initialLocation, lastActivity.zoom))
         }
 
         filteredActivities.forEach {
