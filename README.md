@@ -1,7 +1,5 @@
 # 📱 ImBored App
 
-## 🚀 Deployment
-
 [![Google Play](https://img.shields.io/badge/Google%20Play-3DDC84?style=for-the-badge&logo=googleplay&logoColor=white)](https://play.google.com/store/apps/details?id=org.wit.imbored)
 
 ## 🛠️ Technologies Used
