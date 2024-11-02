@@ -12,7 +12,7 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@color/purplePrimary"
         android:fitsSystemWindows="true"
         app:elevation="0dp"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -24,8 +24,8 @@
             android:id="@+id/toolbarAdd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleTextColor="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:titleTextColor="@color/colorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/purpleSecondary"
             android:padding="16dp"
             android:text="@string/button_addImage"
             android:importantForAccessibility="yes"
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/purpleSecondary"
             android:padding="16dp"
             android:text="@string/button_location"
             android:importantForAccessibility="yes"
@@ -128,6 +128,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:padding="16dp"
+            android:backgroundTint="@color/purpleSecondary"
             android:importantForAccessibility="yes"
             android:text="@string/button_select_date"
             android:textColor="@color/colorPrimary"
@@ -142,6 +143,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:padding="16dp"
+            android:backgroundTint="@color/purpleSecondary"
             android:importantForAccessibility="yes"
             android:text="@string/button_select_time"
             android:textColor="@color/colorPrimary"
@@ -184,7 +186,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:backgroundTint="@color/colorAccent"
+            android:backgroundTint="@color/purplePrimary"
             android:padding="16dp"
             android:importantForAccessibility="yes"
             android:text="@string/button_addActivity"

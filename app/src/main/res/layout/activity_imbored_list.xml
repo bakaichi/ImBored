@@ -9,7 +9,7 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@color/purplePrimary"
         android:fitsSystemWindows="true"
         app:elevation="0dp"
         app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -18,7 +18,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleTextColor="@color/black" />
+            app:titleTextColor="@color/colorPrimary" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -39,8 +39,8 @@
         app:menu_labels_textColor="@android:color/white"
         app:menu_labels_position="left"
         app:menu_backgroundColor="@android:color/transparent"
-        app:menu_colorNormal="@color/colorAccent"
-        app:menu_colorPressed="@color/colorPrimaryDark"
+        app:menu_colorNormal="@color/purpleSecondary"
+        app:menu_colorPressed="@color/purplePrimary"
         app:menu_colorRipple="@color/colorAccent"
         app:layout_anchorGravity="bottom|end"
         android:layout_gravity="bottom|end">
@@ -51,8 +51,8 @@
             android:layout_height="wrap_content"
             app:fab_size="mini"
             app:fab_label="Clear Filters"
-            app:fab_colorNormal="@color/colorAccent"
-            app:fab_colorPressed="@color/colorPrimaryDark"
+            app:fab_colorNormal="@color/purpleSecondary"
+            app:fab_colorPressed="@color/purplePrimary"
             app:fab_colorRipple="@color/colorAccent"
             app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"/>
 
@@ -62,8 +62,8 @@
             android:layout_height="wrap_content"
             app:fab_size="mini"
             app:fab_label="Filter"
-            app:fab_colorNormal="@color/colorAccent"
-            app:fab_colorPressed="@color/colorPrimaryDark"
+            app:fab_colorNormal="@color/purpleSecondary"
+            app:fab_colorPressed="@color/purplePrimary"
             app:fab_colorRipple="@color/colorAccent"/>
 
         <com.github.clans.fab.FloatingActionButton
@@ -72,8 +72,8 @@
             android:layout_height="wrap_content"
             app:fab_size="mini"
             app:fab_label="Add Activity"
-            app:fab_colorNormal="@color/colorAccent"
-            app:fab_colorPressed="@color/colorPrimaryDark"
+            app:fab_colorNormal="@color/purpleSecondary"
+            app:fab_colorPressed="@color/purplePrimary"
             app:fab_colorRipple="@color/colorAccent"/>
 
 

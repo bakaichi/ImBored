@@ -12,7 +12,7 @@
         android:id="@+id/appBarLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/colorAccent"
+        android:background="@color/purplePrimary"
         android:fitsSystemWindows="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,54 +42,58 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2">
+        app:layout_constraintTop_toBottomOf="@+id/appBarLayout2"
+        app:layout_constraintVertical_bias="1.0">
 
         <com.github.clans.fab.FloatingActionMenu
             android:id="@+id/fab_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="16dp"
-            app:menu_backgroundColor="@android:color/transparent"
-            app:menu_colorNormal="@color/colorAccent"
-            app:menu_colorPressed="@color/colorPrimaryDark"
-            app:menu_colorRipple="@color/colorAccent"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
             app:menu_labels_ellipsize="end"
-            app:menu_labels_position="left"
             app:menu_labels_singleLine="true"
-            app:menu_labels_textColor="@android:color/white">
+            app:menu_labels_textColor="@android:color/white"
+            app:menu_labels_position="left"
+            app:menu_backgroundColor="@android:color/transparent"
+            app:menu_colorNormal="@color/purpleSecondary"
+            app:menu_colorPressed="@color/purplePrimary"
+            app:menu_colorRipple="@color/colorAccent"
+            app:layout_anchorGravity="bottom|end"
+            android:layout_gravity="bottom|end">
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_clear_filter"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fab_colorNormal="@color/colorAccent"
-                app:fab_colorPressed="@color/colorPrimaryDark"
-                app:fab_colorRipple="@color/colorAccent"
-                app:fab_label="Clear Filters"
                 app:fab_size="mini"
-                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+                app:fab_label="Clear Filters"
+                app:fab_colorNormal="@color/purpleSecondary"
+                app:fab_colorPressed="@color/purplePrimary"
+                app:fab_colorRipple="@color/colorAccent"
+                app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/fab_filter_activity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fab_colorNormal="@color/colorAccent"
-                app:fab_colorPressed="@color/colorPrimaryDark"
-                app:fab_colorRipple="@color/colorAccent"
+                app:fab_size="mini"
                 app:fab_label="Filter"
-                app:fab_size="mini" />
+                app:fab_colorNormal="@color/purpleSecondary"
+                app:fab_colorPressed="@color/purplePrimary"
+                app:fab_colorRipple="@color/colorAccent"/>
 
             <com.github.clans.fab.FloatingActionButton
                 android:id="@+id/item_add"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:fab_colorNormal="@color/colorAccent"
-                app:fab_colorPressed="@color/colorPrimaryDark"
-                app:fab_colorRipple="@color/colorAccent"
+                app:fab_size="mini"
                 app:fab_label="Add Activity"
-                app:fab_size="mini" />
+                app:fab_colorNormal="@color/purpleSecondary"
+                app:fab_colorPressed="@color/purplePrimary"
+                app:fab_colorRipple="@color/colorAccent"/>
 
         </com.github.clans.fab.FloatingActionMenu>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
