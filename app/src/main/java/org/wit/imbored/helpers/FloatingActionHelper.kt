@@ -82,7 +82,7 @@ class FloatingActionHelper(
                 it.dateTime?.contains(selectedDate) == true
             }
             onActivitiesFiltered(filteredActivities)
-        }, 2024, 1, 5)
+        }, 2024, 10, 1)
         datePicker.show()
     }
 
