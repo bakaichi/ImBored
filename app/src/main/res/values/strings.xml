@@ -27,6 +27,9 @@
     <string name="back_to_login">Back to Login</string>
     <string name="logout">Logout</string>
     <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="date_and_time">Date and Time</string>
+    <string name="change_location">Change Location</string>
 
     <string-array name="hint_select_category">Select Category</string-array>
     <string-array name="activity_categories">

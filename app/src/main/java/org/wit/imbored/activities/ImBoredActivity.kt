@@ -50,6 +50,8 @@ class ImBoredActivity : AppCompatActivity() {
             activityItem = intent.extras?.getParcelable("activity_edit")!!
             binding.activityTitle.setText(activityItem.title)
             binding.description.setText(activityItem.description)
+            binding.activityLocation.setText(R.string.change_location)
+
             Picasso.get().load(activityItem.image).into(binding.activityImage)
             if (activityItem.image != Uri.EMPTY) {
                 binding.chooseImage.setText(R.string.change_activity_image)

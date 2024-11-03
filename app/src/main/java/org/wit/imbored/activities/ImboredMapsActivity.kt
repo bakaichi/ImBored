@@ -59,6 +59,7 @@ class ImboredMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener
         val activity = app.activities.findById(tag)
         contentBinding.currentTitle.text = activity!!.title
         contentBinding.currentDescription.text = activity.description
+        contentBinding.dateTime.text = activity.dateTime
         Picasso.get().load(activity.image).into(contentBinding.currentImage)
         return false
     }
