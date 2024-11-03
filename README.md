@@ -46,12 +46,11 @@ You can log in using the following test account:
 - Login and registration using Firebase Authentication.
 - Activity creation with fields for title, description, category, image, date, time, and recurrence options.
 - Map view for all activities using Google Maps with clickable markers.
-- Detailed activity view with all information, including cast roles and recurrence.
-- List page with filtering, sorting, and pagination for activities.
+- Detailed activity view with all information, including recurrence.
+- List page with filtering activities.
 - Floating action menu for activity actions.
 - Image selection and upload using device gallery with storage in JSON format.
 - Favorite activities functionality.
-- Deployment on Google Play Store.
 
 ## 📦 Future Work
 - Expand map features to show nearby events or activity recommendations.
