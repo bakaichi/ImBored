@@ -50,7 +50,6 @@ You can log in using the following test account:
 - List page with filtering activities.
 - Floating action menu for activity actions.
 - Image selection and upload using device gallery with storage in JSON format.
-- Favorite activities functionality.
 
 ## 📦 Future Work
 - Expand map features to show nearby events or activity recommendations.
